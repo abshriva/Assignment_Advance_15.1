@@ -1,0 +1,49 @@
+
+  <h3>Employee Details</h3>
+  <div class="panel panel-default">
+  <input type="text" name="search" class="form-control" placeholder="Search" [(ngModel)]="searchData">
+  <div class="panel-body">
+    <div class="pull-right">
+    </div>
+  <div *ngIf="employee.length <= 0" [ngStyle]="{'text-align': 'center','color': 'red'}">
+    No Employee Available
+  </div>
+  <div class="table-resposive" [hidden]="!employee.length >0" >
+    <table class="table table-filter">
+    <thead>
+      <tr>
+        <th></th>
+        <th>Title</th>
+        <th>Name</th>
+        <th>Age</th>
+        <th>DOB</th>
+        <th>Emp. Id</th> 
+      </tr>
+    </thead>
+    <tbody>
+        <tr [@flyInOut]="in" (@flyInOut.start)="animationStarted($event)" (@flyInOut.done)="animationDone($event)"
+        *ngFor="let employeeList of (employee | searchBy : searchData)" [@EmployeState]='employeeList.stateExpression'
+         (mouseenter)="mouseEnter()" (mouseleave)="mouseLeave()">
+        <td>
+        <div class="media">
+        <a href="#" class="pull-left">
+        <img [src]="imageUrl" class="media-photo">
+        </a>
+        </div>
+        </td>
+        <td>{{employeeList.title}}</td>
+        <td>{{employeeList.name | capitalize}}</td>
+        <td>{{employeeList.age}}</td>
+        <td>{{employeeList.dob | date :'M/d/yyyy'}}</td>
+        <td>{{employeeList.id}}</td>
+        <td>
+          <a class="btn btn-warning btn-sm" (click)="onDelete(employeeList.id)">
+            <span class="glyphicon glyphicon-trash"></span>
+          </a>
+        </td>
+        </tr>
+    </tbody>
+  </table>
+  </div>
+</div>
+
